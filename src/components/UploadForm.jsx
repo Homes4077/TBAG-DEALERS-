@@ -19,8 +19,8 @@ function UploadForm() {
     image6Url: '',
   });
 
-  // Define your API base URL using the environment variable
-  const API_BASE_URL = process.env.REACT_APP_API_URL; // ADDED/MODIFIED LINE
+  // Define your API base URL using the environment variable only once at the top level
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,25 +33,16 @@ function UploadForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Submitting form data:', formData);
-<<<<<<< HEAD
-    
-    try {
-      // Use the environment variable for the backend URL
-      const response = await fetch(`${API_BASE_URL}/vehicles`, { // MODIFIED LINE
-=======
 
-    // *** UPDATED: Using environment variable for API base URL ***
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; 
     if (!API_BASE_URL) {
-      alert('Error: Backend API URL is not configured. Please set REACT_APP_API_BASE_URL environment variable.');
-      console.error('REACT_APP_API_BASE_URL is not set.');
+      alert('Error: Backend API URL is not configured. Please set REACT_APP_API_URL environment variable in Vercel.');
+      console.error('REACT_APP_API_URL is not set.');
       return;
     }
 
     try {
-      // Concatenate the base URL with the specific endpoint
+      // Use the environment variable for the backend URL
       const response = await fetch(`${API_BASE_URL}/vehicles`, {
->>>>>>> ac6938bac62b73d7e7160e62c562f22d118e8523
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

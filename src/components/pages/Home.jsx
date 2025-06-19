@@ -1,48 +1,38 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from 'react';
-import VehicleCard from '../VehicleCard.jsx';
+import VehicleCard from '../VehicleCard.jsx'; // Corrected path
 
 function Home() {
   const [vehicles, setVehicles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = true);
   const [error, setError] = useState(null);
 
-  // Define your API base URL using the environment variable
-  const API_BASE_URL = process.env.REACT_APP_API_URL; // <--- ADD THIS LINE
+  // Define your API base URL using the environment variable (only once)
+  // Ensure this matches the variable name you set in Vercel.
+  const API_BASE_URL = process.env.REACT_APP_API_URL; 
 
   useEffect(() => {
     const fetchVehicles = async () => {
       setLoading(true);
       setError(null);
 
-      // *** UPDATED: Using environment variable for API base URL ***
-      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
       if (!API_BASE_URL) {
-        setError('Backend API URL is not configured. Please set REACT_APP_API_BASE_URL environment variable.');
-        console.error('REACT_APP_API_BASE_URL is not set.');
+        setError('Backend API URL is not configured. Please set REACT_APP_API_URL environment variable in Vercel.');
+        console.error('REACT_APP_API_URL is not set.');
         setLoading(false);
         return;
       }
 
       try {
-<<<<<<< HEAD
         // Use the environment variable for the backend URL
-        const response = await fetch(`${API_BASE_URL}/vehicles`); // <--- CHANGE THIS LINE
-=======
-        // Concatenate the base URL with the specific endpoint
         const response = await fetch(`${API_BASE_URL}/vehicles`);
->>>>>>> ac6938bac62b73d7e7160e62c562f22d118e8523
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         setVehicles(data);
       } catch (e) {
-<<<<<<< HEAD
-        setError("Failed to fetch vehicles. Please check the backend API URL and CORS settings."); // Added CORS hint
-=======
-        setError("Failed to fetch vehicles. Please ensure the backend API is running and configured correctly.");
->>>>>>> ac6938bac62b73d7e7160e62c562f22d118e8523
+        setError("Failed to fetch vehicles. Please check the backend API URL and CORS settings."); // Keeping the more informative error message
         console.error("Error fetching vehicles:", e);
       } finally {
         setLoading(false);
@@ -50,7 +40,7 @@ function Home() {
     };
 
     fetchVehicles();
-  }, [API_BASE_URL]); // <--- Add API_BASE_URL to dependency array
+  }, [API_BASE_URL]); // Add API_BASE_URL to dependency array
 
   if (loading) {
     return (
@@ -66,11 +56,8 @@ function Home() {
       <div className="text-center p-8 bg-red-100 border border-red-400 text-red-700 rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Error Loading Vehicles</h2>
         <p>{error}</p>
-<<<<<<< HEAD
+        {/* Keeping the more informative error message */}
         <p>Please ensure your backend is running and the API URL is correct (check Vercel environment variables and `Home.jsx`). Also, check for CORS issues.</p>
-=======
-        <p className="text-md text-gray-500 mt-2">Ensure your backend is deployed and its URL is correctly set as `REACT_APP_API_BASE_URL` in Netlify environment variables.</p>
->>>>>>> ac6938bac62b73d7e7160e62c562f22d118e8523
       </div>
     );
   }
