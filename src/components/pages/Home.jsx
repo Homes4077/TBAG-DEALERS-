@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from 'react';
-import VehicleCard from '../components/VehicleCard.jsx';
+import VehicleCard from '../VehicleCard.jsx';
 
 function Home() {
   const [vehicles, setVehicles] = useState([]);

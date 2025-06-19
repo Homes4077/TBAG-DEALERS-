@@ -1,6 +1,7 @@
 // src/pages/AdminPanel.jsx
 import React from 'react';
-import UploadForm from '../components/UploadForm.jsx';
+import UploadForm from '../UploadForm.jsx'; // This is the correct path
+
 
 function AdminPanel() {
   // In a real app, you'd check for admin authentication here
