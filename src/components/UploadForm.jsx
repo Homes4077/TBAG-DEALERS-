@@ -2,6 +2,11 @@
 import React, { useState } from 'react';
 
 function UploadForm() {
+  const ADMIN_PASSWORD = 'adminpassword123'; // <<<--- CHANGE THIS TO A STRONGER PASSWORD!
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+
   const [formData, setFormData] = useState({
     make: '',
     model: '',
@@ -19,8 +24,21 @@ function UploadForm() {
     image6Url: '',
   });
 
-  // Define your API base URL using the environment variable only once at the top level
   const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+  const handlePasswordChange = (e) => {
+    setPasswordInput(e.target.value);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (passwordInput === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Incorrect password!');
+      setPasswordInput(''); // Clear input on failure
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,18 +53,16 @@ function UploadForm() {
     console.log('Submitting form data:', formData);
 
     if (!API_BASE_URL) {
-      alert('Error: Backend API URL is not configured. Please set REACT_APP_API_URL environment variable in Vercel.');
+      alert('Error: Backend API URL is not configured. Please set REACT_APP_API_URL environment variable.');
       console.error('REACT_APP_API_URL is not set.');
       return;
     }
 
     try {
-      // Use the environment variable for the backend URL
       const response = await fetch(`${API_BASE_URL}/vehicles`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': 'Bearer YOUR_AUTH_TOKEN' // Add if you have authentication
         },
         body: JSON.stringify(formData),
       });
@@ -68,12 +84,37 @@ function UploadForm() {
     }
   };
 
-  const inputClass = "w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500";
+  const inputClass = "w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-all duration-200";
   const labelClass = "block text-sm font-medium text-gray-700 mb-1";
+  const buttonClass = "bg-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-purple-700 transition duration-300 transform hover:scale-105 shadow-lg";
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-indigo-200 p-4">
+        <div className="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8 font-playfair-display">Admin Login</h2>
+          <form onSubmit={handleLogin}>
+            <div className="mb-6">
+              <label htmlFor="adminPassword" className={labelClass}>Password</label>
+              <input
+                type="password"
+                id="adminPassword"
+                value={passwordInput}
+                onChange={handlePasswordChange}
+                className={inputClass}
+                required
+              />
+            </div>
+            <button type="submit" className={buttonClass}>Login</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-xl max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center font-playfair-display">Add New Vehicle</h2>
+    <div className="bg-white p-8 rounded-lg shadow-xl max-w-4xl mx-auto my-12 animate-fade-in-up">
+      <h2 className="text-4xl font-bold text-gray-800 mb-10 text-center font-playfair-display">Add New Vehicle</h2>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="make" className={labelClass}>Make</label>
@@ -116,10 +157,10 @@ function UploadForm() {
           </div>
         ))}
 
-        <div className="md:col-span-2 text-center mt-6">
+        <div className="md:col-span-2 text-center mt-8">
           <button
             type="submit"
-            className="bg-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-purple-700 transition duration-300 transform hover:scale-105 shadow-lg"
+            className={buttonClass}
           >
             Add Vehicle
           </button>
