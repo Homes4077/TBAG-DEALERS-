@@ -15,7 +15,7 @@ function Home() {
       setError(null);
 
       if (!API_BASE_URL) {
-        setError('Backend API URL is not configured. Please set REACT_APP_API_URL environment variable in Vercel.');
+        setError('Backend API URL is not configured. Please set REACT_APP_API_URL environment variable .');
         console.error('REACT_APP_API_URL is not set.');
         setLoading(false);
         return;
