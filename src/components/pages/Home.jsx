@@ -53,8 +53,8 @@ function Home() {
       <div className="text-center p-10 bg-red-50 border border-red-400 text-red-800 rounded-xl shadow-lg mx-auto max-w-lg mt-12 animate-fade-in">
         <h2 className="text-3xl font-extrabold mb-4 text-red-700">Error Loading Vehicles</h2>
         <p className="text-lg mb-2">{error}</p>
-        <p className="text-md text-red-600 mt-4">Please ensure your backend is running and the API URL is correct (check Vercel environment variables and `Home.jsx`). Also, check for CORS issues.</p>
-        <p className="text-sm text-red-500 mt-2">If your backend is on a free tier, it might be asleep. Try accessing its URL directly to wake it up.</p>
+        <p className="text-md text-red-600 mt-4">Please ensure your backend is running and the API URL is correct (check environment variables and `Home.jsx`). Also, check for CORS issues.</p>
+        <p className="text-sm text-red-500 mt-2">If your backend it might be asleep. Try accessing its URL directly to wake it up.</p>
       </div>
     );
   }
